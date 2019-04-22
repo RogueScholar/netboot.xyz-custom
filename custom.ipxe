@@ -1,11 +1,47 @@
 #!ipxe
 ###
-### netboot.xyz-custom menu
+### RogueScholar iPXE Menu
 ###
 
 :start
-echo Hello world!
-sleep 10
+echo Greetings, wayfaring stranger.
+:custom
+clear custom_choice
+menu Select the desired boot environment
+item --gap Parted Magic (v2019_01_03)
+item pmagic64 ${space} x86_64 kernel/initrd
+item pmagic32 ${space} x86 kernel/initrd
+item pmagiciso ${space} x86/x64 ISO
+item --gap This is a second sub menu
+item option_four ${space} Loads another custom sub menu
+item option_five ${space} This is option five
+choose custom_choice || goto custom_exit
+echo ${cls}
+goto ${custom_choice}
+goto custom_exit
+
+:pmagic64
+kernel https://rscholar.keybase.pub/ipxe/pmagic/bzImage64?dl=1
+initrd https://rscholar.keybase.pub/ipxe/pmagic/initrd.img?dl=1,https://rscholar.keybase.pub/ipxe/pmagic/fu.img?dl=1,https://rscholar.keybase.pub/ipxe/pmagic/m64.img?dl=1,https://rscholar.keybase.pub/ipxe/pmagic/files.cgz?dl=1
+imgargs vmlinuz edd=on vga=normal nox2apic
+boot || goto custom_exit
+
+:pmagic32
+kernel https://rscholar.keybase.pub/ipxe/pmagic/bzImage?dl=1
+initrd https://rscholar.keybase.pub/ipxe/pmagic/initrd.img?dl=1,https://rscholar.keybase.pub/ipxe/pmagic/fu.img?dl=1,https://rscholar.keybase.pub/ipxe/pmagic/m32.img?dl=1,https://rscholar.keybase.pub/ipxe/pmagic/files.cgz?dl=1
+imgargs vmlinuz edd=on vga=normal nox2apic
+boot || goto custom_exit
+
+:pmagiciso
+kernel https://rscholar.keybase.pub/ipxe/pmagic/memdisk?dl=1 raw iso
+initrd https://rscholar.keybase.pub/ipxe/pmagic/pmagic_2019_01_03.iso?dl=1
+boot || goto custom_exit
+
+:option_three
+echo Chains into another menu...
+chain https://raw.githubusercontent.com/${github_user}/netboot.xyz-custom/master/custom1.ipxe || goto custom
+
+sleep 300
 goto custom_exit
 
 :custom_exit
