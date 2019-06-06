@@ -3,20 +3,22 @@
 ### RogueScholar iPXE Menu
 ###
 
-#console --x 1280 --y 800
-#console --picture http://boot.ipxe.org/texture.png --left 240 --right 240 --top 80 --bottom 120 --depth 24
+console --x 1280 --y 800
+console --picture http://boot.ipxe.org/texture.png --left 240 --right 240 --top 80 --bottom 120 --depth 24
 
 :start
 echo Greetings, wayfaring stranger.
 :custom
 clear custom_choice
 menu Select the desired boot environment
-item --gap Parted Magic (v2019_01_03)
-item pmagic64 ${space} x86_64 kernel/initrd
+item --gap Parted Magic (v2019_05_30)
+item pmagic64 ${space} x86_64 bzImage64/initrd
+item pmagic32 ${space} i386 bzImage/initrd
 item pmagiciso ${space} x86/x64 ISO
-item --gap This is a second sub menu
-item option_four ${space} Loads another custom sub menu
-item option_five ${space} This is option five
+item --gap Other utilities
+item grmliso ${space} Grml 2018.12 amd64 Full ISO
+item grmlram ${space} Grml 2018.12 amd64 Full ramdisk
+item czilla ${space} Clonezilla Live 20190603 amd64 Ubuntu ramdisk
 choose custom_choice || goto custom_exit
 echo ${cls}
 goto ${custom_choice}
@@ -24,25 +26,49 @@ goto custom_exit
 
 :pmagic64
 set pmagic-path https://rscholar.keybase.pub/ipxe/pmagic
-kernel ${pmagic-path}/bzImage64?dl=1
-initrd ${pmagic-path}/initrd.img?dl=1
-initrd ${pmagic-path}/fu.img?dl=1
-initrd ${pmagic-path}/m64.img?dl=1
-initrd ${pmagic-path}/files.cgz?dl=1
-imgargs bzImage64 boot=live ip=dhcp edd=on nox2apic load_ramdisk=1 prompt_ramdisk=0 rw vga=normal sleep=0 loglevel=0 keymap=us splash quiet - || read void
-boot || read void
+imgfetch --name bzImage64 ${pmagic-path}/bzImage64?dl=1
+imgfetch --name initrd.img ${pmagic-path}/initrd.img?dl=1
+imgfetch --name fu.img ${pmagic-path}/fu.img?dl=1
+imgfetch --name m64.img ${pmagic-path}/m64.img?dl=1
+imgfetch --name files.cgz ${pmagic-path}/files.cgz?dl=1
+chain bzImage64 initrd=initrd.img initrd=fu.img initrd=m64.img initrd=files.cgz boot=live ip=dhcp edd=on load_ramdisk=1 prompt_ramdisk=0 rw vga=normal sleep=0 loglevel=0 keymap=us splash || goto custom_exit
+
+:pmagic32
+set pmagic-path https://rscholar.keybase.pub/ipxe/pmagic
+imgfetch --name bzImage ${pmagic-path}/bzImage?dl=1
+imgfetch --name initrd.img ${pmagic-path}/initrd.img?dl=1
+imgfetch --name fu.img ${pmagic-path}/fu.img?dl=1
+imgfetch --name m32.img ${pmagic-path}/m32.img?dl=1
+imgfetch --name files.cgz ${pmagic-path}/files.cgz?dl=1
+chain bzImage initrd=initrd.img initrd=fu.img initrd=m32.img initrd=files.cgz boot=live ip=dhcp edd=on load_ramdisk=1 prompt_ramdisk=0 rw vga=normal sleep=0 loglevel=0 keymap=us splash || goto custom_exit
 
 :pmagiciso
-kernel https://rscholar.keybase.pub/ipxe/pmagic/memdisk?dl=1 raw iso
-initrd https://rscholar.keybase.pub/ipxe/pmagic/pmagic_2019_01_03.iso?dl=1
-boot || goto custom_exit
+set pmagic-path https://rscholar.keybase.pub/ipxe/pmagic
+imgfetch --name memdisk ${pmagic-path}/memdisk?dl=1
+imgfetch --name pmagic_2019_05_30.iso ${pmagic-path}/pmagic_2019_05_30.iso?dl=1
+chain memdisk initrd=pmagic_2019_05_30.iso raw iso || goto custom_exit
 
-:option_three
-echo Chains into another menu...
-chain https://raw.githubusercontent.com/${github_user}/netboot.xyz-custom/master/custom1.ipxe || goto custom
+:grmliso
+set grml-path https://rscholar.keybase.pub/ipxe/grml
+imgfetch --name memdisk ${grml-path}/memdisk?dl=1
+imgfetch --name grml64-full_2018.12.iso ${grml-path}/grml64-full_2018.12.iso?dl=1
+chain memdisk initrd=pmagic_2019_05_30.iso raw iso || goto custom_exit
+
+:grmlram
+set grml-path https://rscholar.keybase.pub/ipxe/grml
+imgfetch --name vmlinuz ${grml-path}/vmlinuz?dl=1
+imgfetch --name initrd.img ${grml-path}/initrd.img?dl=1
+imgfetch --name grml64-full.squashfs ${grml-path}/grml64-full.squashfs
+chain vmlinuz initrd=initrd.img initrd=grml64-full.squashfs boot=live apm=power-off vga=791 nomce noeject noprompt noblank keyboard=us xkeyboard=us tz=America/Los_Angeles hostname ssh=password || goto custom_exit
+
+:czilla
+set czilla-path https://rscholar.keybase.pub/ipxe/czilla
+goto custom_exit
 
 sleep 300
 goto custom_exit
 
 :custom_exit
 exit 0
+
+#chain https://raw.githubusercontent.com/${github_user}/netboot.xyz-custom/master/custom1.ipxe || goto custom
