@@ -3,8 +3,9 @@
 ### RogueScholar iPXE Menu
 ###
 
-console --x 1280 --y 800
-console --picture http://boot.ipxe.org/texture.png --left 240 --right 240 --top 80 --bottom 120 --depth 24
+#Wish I could dress up my menu but Netboot.xyz doesn't compile in the console command
+#console --x 1280 --y 800
+#console --picture http://boot.ipxe.org/texture.png --left 240 --right 240 --top 80 --bottom 120 --depth 24
 
 :start
 echo Greetings, wayfaring stranger.
