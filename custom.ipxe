@@ -32,7 +32,7 @@ imgfetch --name initrd.img ${pmagic-path}/initrd.img?dl=1
 imgfetch --name fu.img ${pmagic-path}/fu.img?dl=1
 imgfetch --name m64.img ${pmagic-path}/m64.img?dl=1
 imgfetch --name files.cgz ${pmagic-path}/files.cgz?dl=1
-chain bzImage64 initrd=initrd.img initrd=fu.img initrd=m64.img initrd=files.cgz boot=live ip=dhcp edd=on load_ramdisk=1 prompt_ramdisk=0 rw vga=normal sleep=0 loglevel=0 keymap=us splash || goto custom_exit
+chain bzImage64 initrd=initrd.img initrd=fu.img initrd=m64.img initrd=files.cgz boot=live ip=dhcp edd=on load_ramdisk=1 prompt_ramdisk=0 rw vga=normal sleep=0 loglevel=0 keymap=us splash nox2apic || goto custom_exit
 
 :pmagic32
 set pmagic-path https://rscholar.keybase.pub/ipxe/pmagic
@@ -41,26 +41,26 @@ imgfetch --name initrd.img ${pmagic-path}/initrd.img?dl=1
 imgfetch --name fu.img ${pmagic-path}/fu.img?dl=1
 imgfetch --name m32.img ${pmagic-path}/m32.img?dl=1
 imgfetch --name files.cgz ${pmagic-path}/files.cgz?dl=1
-chain bzImage initrd=initrd.img initrd=fu.img initrd=m32.img initrd=files.cgz boot=live ip=dhcp edd=on load_ramdisk=1 prompt_ramdisk=0 rw vga=normal sleep=0 loglevel=0 keymap=us splash || goto custom_exit
+chain bzImage initrd=initrd.img initrd=fu.img initrd=m32.img initrd=files.cgz boot=live ip=dhcp edd=on load_ramdisk=1 prompt_ramdisk=0 rw vga=normal sleep=0 loglevel=0 keymap=us splash nox2apic || goto custom_exit
 
 :pmagiciso
 set pmagic-path https://rscholar.keybase.pub/ipxe/pmagic
 imgfetch --name memdisk ${pmagic-path}/memdisk?dl=1
 imgfetch --name pmagic_2019_05_30.iso ${pmagic-path}/pmagic_2019_05_30.iso?dl=1
-chain memdisk initrd=pmagic_2019_05_30.iso raw iso || goto custom_exit
+chain memdisk initrd=pmagic_2019_05_30.iso raw iso nox2apic || goto custom_exit
 
 :grmliso
 set grml-path https://rscholar.keybase.pub/ipxe/grml
 imgfetch --name memdisk ${grml-path}/memdisk?dl=1
 imgfetch --name grml64-full_2018.12.iso ${grml-path}/grml64-full_2018.12.iso?dl=1
-chain memdisk initrd=pmagic_2019_05_30.iso raw iso || goto custom_exit
+chain memdisk initrd=pmagic_2019_05_30.iso raw iso nox2apic || goto custom_exit
 
 :grmlram
 set grml-path https://rscholar.keybase.pub/ipxe/grml
 imgfetch --name vmlinuz ${grml-path}/vmlinuz?dl=1
 imgfetch --name initrd.img ${grml-path}/initrd.img?dl=1
 imgfetch --name grml64-full.squashfs ${grml-path}/grml64-full.squashfs
-chain vmlinuz initrd=initrd.img initrd=grml64-full.squashfs boot=live apm=power-off vga=791 nomce noeject noprompt noblank keyboard=us xkeyboard=us tz=America/Los_Angeles hostname ssh=password || goto custom_exit
+chain vmlinuz initrd=initrd.img initrd=grml64-full.squashfs boot=live apm=power-off vga=791 nomce noeject noprompt noblank keyboard=us xkeyboard=us tz=America/Los_Angeles hostname ssh=password nox2apic || goto custom_exit
 
 :czilla
 set czilla-path https://rscholar.keybase.pub/ipxe/czilla
