@@ -12,7 +12,7 @@ echo Greetings, wayfaring stranger.
 :custom
 clear custom_choice
 menu Select the desired boot environment
-item --gap Parted Magic (v2019_11_04)
+item --gap Parted Magic (v2020_02_23)
 item pmagic64 ${space} x86_64 bzImage64/initrd
 item pmagic32 ${space} i386 bzImage/initrd
 item pmagiciso ${space} x86/x64 ISO
@@ -47,8 +47,8 @@ chain bzImage initrd=initrd.img initrd=fu.img initrd=m32.img initrd=files.cgz bo
 :pmagiciso
 set pmagic-path https://rscholar.keybase.pub/ipxe/pmagic
 imgfetch --name memdisk ${pmagic-path}/memdisk?dl=1
-imgfetch --name pmagic_2019_11_04.iso ${pmagic-path}/pmagic_2019_11_04.iso?dl=1
-kernel memdisk initrd=pmagic_2019_11_04.iso iso vmalloc=256M
+imgfetch --name pmagic_2020_02_23.iso ${pmagic-path}/pmagic_2020_02_23.iso?dl=1
+kernel memdisk initrd=pmagic_2020_02_23.iso iso vmalloc=256M
 boot || goto custom_exit
 
 :grmliso
