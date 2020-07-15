@@ -59,14 +59,13 @@ imgfetch --name initrd.img ${pmagic-path}/initrd.img?dl=1
 imgfetch --name fu.img ${pmagic-path}/fu.img?dl=1
 imgfetch --name m32.img ${pmagic-path}/m32.img?dl=1
 imgfetch --name files.cgz ${pmagic-path}/files.cgz?dl=1
-chain bzImage initrd=initrd.img initrd=fu.img initrd=m32.img initrd=files.cgz boot=live ip=dhcp edd=on load_ramdisk=1 prompt_ramdisk=0 rw vga=normal sleep=0 loglevel=0 keymap=us splash nox2apic || goto custom_exit
+chain bzImage initrd=initrd.img initrd=fu.img initrd=m32.img initrd=files.cgz boot=live ip=dhcp edd=on load_ramdisk=1 prompt_ramdisk=0 rw vga=normal sleep=0 loglevel=0 keymap=us nox2apic || goto custom_exit
 
 :grmliso
 set grml-path https://rscholar.keybase.pub/ipxe/grml
 imgfetch --name memdisk ${grml-path}/memdisk?dl=1
 imgfetch --name grml64-full_2018.12.iso ${grml-path}/grml64-full_2018.12.iso?dl=1
-chain memdisk initrd=grml64-full_2018.12.iso raw iso nox2apic vmalloc=256M
-boot || goto custom_exit
+chain memdisk initrd=grml64-full_2018.12.iso raw iso nox2apic vmalloc=256M || goto custom_exit
 
 :grmlram
 set grml-path https://rscholar.keybase.pub/ipxe/grml
