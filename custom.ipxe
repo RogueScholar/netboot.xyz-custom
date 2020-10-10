@@ -12,11 +12,9 @@ echo Greetings, wayfaring stranger.
 :custom
 clear custom_choice
 menu Select the desired boot environment
-item --gap Parted Magic (v2020_05_20)
-item pmagicnet64 ${space} x86_64 netsrc+bzImage64/initrd
-item pmagicnet32 ${space} i386 netsrc+bzImage/initrd
-item pmagic64    ${space} x86_64 classic+bzImage64/initrd
-item pmagic32    ${space} i386 classic+bzImage/initrd
+item --gap Parted Magic (v2020_08_23)
+item pmagicnet ${space} netsrc+squashfs
+item pmagic    ${space} classic+cgz
 item --gap Other utilities
 item grmliso ${space} Grml 2018.12 amd64 Full ISO
 item grmlram ${space} Grml 2018.12 amd64 Full ramdisk
@@ -27,39 +25,22 @@ echo ${cls}
 goto ${custom_choice}
 goto custom_exit
 
-:pmagicnet64
-set pmagic-path https://rscholar.keybase.pub/ipxe/pmagic
-imgfetch --name bzImage64 ${pmagic-path}/bzImage64?dl=1
-imgfetch --name initrd.img ${pmagic-path}/initrd.img?dl=1
-imgfetch --name fu.img ${pmagic-path}/fu.img?dl=1
-imgfetch --name m64.img ${pmagic-path}/m64.img?dl=1
-chain bzImage64 initrd=initrd.img initrd=fu.img initrd=m64.img edd=on vga=normal netsrc=wget neturl="https://keybase.pub/rscholar/ipxe/pmagic/pmodules/" netargs="-U pmagicboot" boot=live ip=dhcp load_ramdisk=1 prompt_ramdisk=0 rw sleep=0 loglevel=0 keymap=us nox2apic || goto custom_exit
-
-:pmagicnet32
+:pmagicnet
 set pmagic-path https://rscholar.keybase.pub/ipxe/pmagic
 imgfetch --name bzImage ${pmagic-path}/bzImage?dl=1
 imgfetch --name initrd.img ${pmagic-path}/initrd.img?dl=1
 imgfetch --name fu.img ${pmagic-path}/fu.img?dl=1
-imgfetch --name m32.img ${pmagic-path}/m32.img?dl=1
-chain bzImage initrd=initrd.img initrd=fu.img initrd=m32.img edd=on vga=normal netsrc=wget neturl="https://keybase.pub/rscholar/ipxe/pmagic/pmodules/" netargs="-U pmagicboot" boot=live ip=dhcp load_ramdisk=1 prompt_ramdisk=0 rw sleep=0 loglevel=0 keymap=us nox2apic || goto custom_exit
+imgfetch --name m.img ${pmagic-path}/m.img?dl=1
+chain bzImage initrd=initrd.img initrd=fu.img initrd=m.img edd=on vga=normal netsrc=wget neturl="https://keybase.pub/rscholar/ipxe/pmagic/pmodules/" netargs="-U pmagicboot" boot=live ip=dhcp load_ramdisk=1 prompt_ramdisk=0 rw sleep=0 loglevel=0 keymap=us nox2apic || goto custom_exit
 
-:pmagic64
-set pmagic-path https://rscholar.keybase.pub/ipxe/pmagic
-imgfetch --name bzImage64 ${pmagic-path}/bzImage64?dl=1
-imgfetch --name initrd.img ${pmagic-path}/initrd.img?dl=1
-imgfetch --name fu.img ${pmagic-path}/fu.img?dl=1
-imgfetch --name m64.img ${pmagic-path}/m64.img?dl=1
-imgfetch --name files.cgz ${pmagic-path}/files.cgz?dl=1
-chain bzImage64 initrd=initrd.img initrd=fu.img initrd=m64.img initrd=files.cgz boot=live ip=dhcp edd=on load_ramdisk=1 prompt_ramdisk=0 rw vga=normal sleep=0 loglevel=0 keymap=us nox2apic || goto custom_exit
-
-:pmagic32
+:pmagic
 set pmagic-path https://rscholar.keybase.pub/ipxe/pmagic
 imgfetch --name bzImage ${pmagic-path}/bzImage?dl=1
 imgfetch --name initrd.img ${pmagic-path}/initrd.img?dl=1
 imgfetch --name fu.img ${pmagic-path}/fu.img?dl=1
-imgfetch --name m32.img ${pmagic-path}/m32.img?dl=1
+imgfetch --name m.img ${pmagic-path}/m.img?dl=1
 imgfetch --name files.cgz ${pmagic-path}/files.cgz?dl=1
-chain bzImage initrd=initrd.img initrd=fu.img initrd=m32.img initrd=files.cgz boot=live ip=dhcp edd=on load_ramdisk=1 prompt_ramdisk=0 rw vga=normal sleep=0 loglevel=0 keymap=us nox2apic || goto custom_exit
+chain bzImage initrd=initrd.img initrd=fu.img initrd=m.img initrd=files.cgz boot=live ip=dhcp edd=on load_ramdisk=1 prompt_ramdisk=0 rw vga=normal sleep=0 loglevel=0 keymap=us nox2apic || goto custom_exit
 
 :grmliso
 set grml-path https://rscholar.keybase.pub/ipxe/grml
