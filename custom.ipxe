@@ -12,7 +12,7 @@ echo Greetings, wayfaring stranger.
 :custom
 clear custom_choice
 menu Select the desired boot environment
-item --gap Parted Magic (v2020_08_23)
+item --gap Parted Magic (v2020_10_12)
 item pmagicnet ${space} netsrc+squashfs
 item pmagic    ${space} classic+cgz
 item --gap Other utilities
@@ -31,7 +31,7 @@ imgfetch --name bzImage ${pmagic-path}/bzImage?dl=1
 imgfetch --name initrd.img ${pmagic-path}/initrd.img?dl=1
 imgfetch --name fu.img ${pmagic-path}/fu.img?dl=1
 imgfetch --name m.img ${pmagic-path}/m.img?dl=1
-chain bzImage initrd=initrd.img initrd=fu.img initrd=m.img edd=on vga=normal netsrc=wget neturl="https://keybase.pub/rscholar/ipxe/pmagic/pmodules/" netargs="-U pmagicboot" boot=live ip=dhcp load_ramdisk=1 prompt_ramdisk=0 rw sleep=0 loglevel=0 keymap=us nox2apic || goto custom_exit
+chain bzImage initrd=initrd.img initrd=fu.img initrd=m.img edd=on vga=normal netsrc=wget neturl="https://keybase.pub/rscholar/ipxe/pmagic/pmodules/" boot=live ip=dhcp load_ramdisk=1 prompt_ramdisk=0 rw sleep=0 loglevel=0 keymap=us nox2apic || goto custom_exit
 
 :pmagic
 set pmagic-path https://rscholar.keybase.pub/ipxe/pmagic
