@@ -12,7 +12,7 @@ echo Greetings, wayfaring stranger.
 :custom
 clear custom_choice
 menu Select the desired boot environment
-item --gap Parted Magic (v2020_10_12)
+item --gap Parted Magic (v2020_12_25)
 item pmagicnet ${space} netsrc+squashfs
 item pmagic    ${space} classic+cgz
 item --gap Other utilities
