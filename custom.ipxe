@@ -3,35 +3,28 @@
 ### RogueScholar iPXE Menu
 ###
 
-#Wish I could dress up my menu but Netboot.xyz doesn't compile in the console command
-#console --x 1280 --y 800
-#console --picture http://boot.ipxe.org/texture.png --left 240 --right 240 --top 80 --bottom 120 --depth 24
+# I wish I could dress up my menu, but Netboot.xyz doesn't compile in the console command :'(
+# console --x 1280 --y 800
+# console --picture http://boot.ipxe.org/texture.png --left 240 --right 240 --top 80 --bottom 120 --depth 24
 
 :start
 echo Greetings, wayfaring stranger.
 :custom
 clear custom_choice
 menu Select the desired boot environment
-item --gap Parted Magic (v2020_12_25)
-item pmagicnet ${space} netsrc+squashfs
-item pmagic    ${space} classic+cgz
-item --gap Other utilities
-item grmliso ${space} Grml 2018.12 amd64 Full ISO
-item grmlram ${space} Grml 2018.12 amd64 Full ramdisk
-item czillaiso ${space} Clonezilla Live 20191009 amd64 Ubuntu Eoan ISO
-item czillaram ${space} Clonezilla Live 20191009 amd64 Ubuntu Eoan ramdisk
+item --gap Parted Magic (v2021_11_17)
+item pmagic    ${space} amd64 classic+cgz
+item pmagicnet ${space} amd64 netsrc+squashfs
+item --gap Grml (v2018.12)
+item grmliso ${space} Grml amd64 Full ISO
+item grmlram ${space} Grml amd64 Full ramdisk
+item --gap Clonezilla (v20191009)
+item czillaiso ${space} Clonezilla Live amd64 Ubuntu Eoan ISO
+item czillaram ${space} Clonezilla Live amd64 Ubuntu Eoan ramdisk
 choose custom_choice || goto custom_exit
 echo ${cls}
 goto ${custom_choice}
 goto custom_exit
-
-:pmagicnet
-set pmagic-path https://rscholar.keybase.pub/ipxe/pmagic
-imgfetch --name bzImage ${pmagic-path}/bzImage?dl=1
-imgfetch --name initrd.img ${pmagic-path}/initrd.img?dl=1
-imgfetch --name fu.img ${pmagic-path}/fu.img?dl=1
-imgfetch --name m.img ${pmagic-path}/m.img?dl=1
-chain bzImage initrd=initrd.img initrd=fu.img initrd=m.img edd=on vga=normal netsrc=wget neturl="https://keybase.pub/rscholar/ipxe/pmagic/pmodules/" boot=live ip=dhcp load_ramdisk=1 prompt_ramdisk=0 rw sleep=0 loglevel=0 keymap=us nox2apic || goto custom_exit
 
 :pmagic
 set pmagic-path https://rscholar.keybase.pub/ipxe/pmagic
@@ -40,7 +33,15 @@ imgfetch --name initrd.img ${pmagic-path}/initrd.img?dl=1
 imgfetch --name fu.img ${pmagic-path}/fu.img?dl=1
 imgfetch --name m.img ${pmagic-path}/m.img?dl=1
 imgfetch --name files.cgz ${pmagic-path}/files.cgz?dl=1
-chain bzImage initrd=initrd.img initrd=fu.img initrd=m.img initrd=files.cgz boot=live ip=dhcp edd=on load_ramdisk=1 prompt_ramdisk=0 rw vga=normal sleep=0 loglevel=0 keymap=us nox2apic || goto custom_exit
+chain bzImage initrd=initrd.img initrd=fu.img initrd=m.img initrd=files.cgz boot=live ip=dhcp edd=on load_ramdisk=1 prompt_ramdisk=0 rw vga=normal sleep=0 loglevel=0 keymap=us || goto custom_exit
+
+:pmagicnet
+set pmagic-path https://rscholar.keybase.pub/ipxe/pmagic
+imgfetch --name bzImage ${pmagic-path}/bzImage?dl=1
+imgfetch --name initrd.img ${pmagic-path}/initrd.img?dl=1
+imgfetch --name fu.img ${pmagic-path}/fu.img?dl=1
+imgfetch --name m.img ${pmagic-path}/m.img?dl=1
+chain bzImage initrd=initrd.img initrd=fu.img initrd=m.img edd=on vga=normal netsrc=wget neturl="https://keybase.pub/rscholar/ipxe/pmagic/pmodules/" boot=live ip=dhcp load_ramdisk=1 prompt_ramdisk=0 rw sleep=0 loglevel=0 keymap=us || goto custom_exit
 
 :grmliso
 set grml-path https://rscholar.keybase.pub/ipxe/grml
