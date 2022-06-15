@@ -1,73 +1,97 @@
 #!ipxe
-###
 ### RogueScholar iPXE Menu
-###
+## SPDX-FileCopyrightText: © 2016–2022, RogueScholar <RogueScholar@users.noreply.github.com>.
+## SPDX-LicenseIdentifier: CC0-1.0
 
-# I wish I could dress up my menu, but Netboot.xyz doesn't compile in the console command :'(
-# console --x 1280 --y 800
-# console --picture http://boot.ipxe.org/texture.png --left 240 --right 240 --top 80 --bottom 120 --depth 24
+set keybase-ipxe-path https://rscholar.keybase.pub/ipxe
+console --left 40 --right 40 --top 80 --bottom 80 --depth 24 --picture ${keybase-ipxe-path}/background.png --keep
+set pmagic-path ${keybase-ipxe-path}/pmagic
+set grml-path ${keybase-ipxe-path}/grml64-full
+set czilla-path ${keybase-ipxe-path}/clonezilla
 
 :start
 echo Greetings, wayfaring stranger.
 :custom
 clear custom_choice
 menu Select the desired boot environment
-item --gap Parted Magic (v2021_11_17)
-item pmagic    ${space} amd64 classic+cgz
-item pmagicnet ${space} amd64 netsrc+squashfs
-item --gap Grml (v2018.12)
-item grmliso ${space} Grml amd64 Full ISO
-item grmlram ${space} Grml amd64 Full ramdisk
-item --gap Clonezilla (v20191009)
-item czillaiso ${space} Clonezilla Live amd64 Ubuntu Eoan ISO
-item czillaram ${space} Clonezilla Live amd64 Ubuntu Eoan ramdisk
+item --gap Parted Magic (v2022_03_28)
+item pmagic    ${space} Parted Magic amd64 classic+cgz
+item pmagicnet ${space} Parted Magic amd64 netsrc+squashfs
+item --gap Grml Full Sid (Build 3819 [2022-06-15])
+item grml      ${space} Grml Live amd64 netboot
+item grmlnet   ${space} Grml Live amd64 httpfetch+squashfs
+item --gap Clonezilla Live (v20220612)
+item czilla    ${space} Clonezilla Live amd64 Ubuntu Kinetic netboot
+item czillanet ${space} Clonezilla Live amd64 Ubuntu Kinetic httpfetch+squashfs
 choose custom_choice || goto custom_exit
 echo ${cls}
 goto ${custom_choice}
 goto custom_exit
 
 :pmagic
-set pmagic-path https://rscholar.keybase.pub/ipxe/pmagic
+echo Downloading Parted Magic image files from ${pmagic-path}...
+echo Fetching kernel...
 imgfetch --name bzImage ${pmagic-path}/bzImage?dl=1
+echo Fetching initramfs...
 imgfetch --name initrd.img ${pmagic-path}/initrd.img?dl=1
+echo Fetching filesystems...
 imgfetch --name fu.img ${pmagic-path}/fu.img?dl=1
 imgfetch --name m.img ${pmagic-path}/m.img?dl=1
 imgfetch --name files.cgz ${pmagic-path}/files.cgz?dl=1
+echo Booting Parted Magic...
 chain bzImage initrd=initrd.img initrd=fu.img initrd=m.img initrd=files.cgz boot=live ip=dhcp edd=on load_ramdisk=1 prompt_ramdisk=0 rw vga=normal sleep=0 loglevel=0 keymap=us || goto custom_exit
 
 :pmagicnet
-set pmagic-path https://rscholar.keybase.pub/ipxe/pmagic
+echo Downloading Parted Magic image files from ${pmagic-path}...
+echo Fetching kernel...
 imgfetch --name bzImage ${pmagic-path}/bzImage?dl=1
+echo Fetching initramfs...
 imgfetch --name initrd.img ${pmagic-path}/initrd.img?dl=1
+echo Fetching filesystems...
 imgfetch --name fu.img ${pmagic-path}/fu.img?dl=1
 imgfetch --name m.img ${pmagic-path}/m.img?dl=1
-chain bzImage initrd=initrd.img initrd=fu.img initrd=m.img edd=on vga=normal netsrc=wget neturl="https://keybase.pub/rscholar/ipxe/pmagic/pmodules/" boot=live ip=dhcp load_ramdisk=1 prompt_ramdisk=0 rw sleep=0 loglevel=0 keymap=us || goto custom_exit
+echo Booting Parted Magic...
+chain bzImage initrd=initrd.img initrd=fu.img initrd=m.img edd=on vga=normal netsrc=wget neturl="${pmagic-path}/pmodules/" boot=live ip=dhcp load_ramdisk=1 prompt_ramdisk=0 rw sleep=0 loglevel=0 keymap=us || goto custom_exit
 
-:grmliso
-set grml-path https://rscholar.keybase.pub/ipxe/grml
-imgfetch --name memdisk ${grml-path}/memdisk?dl=1
-imgfetch --name grml64-full_2018.12.iso ${grml-path}/grml64-full_2018.12.iso?dl=1
-chain memdisk initrd=grml64-full_2018.12.iso raw iso nox2apic vmalloc=256M || goto custom_exit
+:grml
+echo Downloading Grml64 Full Sid image files from ${grml-path}...
+echo Fetching kernel...
+imgfetch --name vmlinuz ${grml-path}/boot/grml64full_sid/vmlinuz?dl=1
+echo Fetching initramfs...
+imgfetch --name initrd.img ${grml-path}/boot/grml64full_sid/initrd.img?dl=1
+echo Fetching filesystem...
+imgfetch --name grml64-full_sid.squashfs ${grml-path}/live/grml64-full_sid/grml64-full_sid.squashfs?dl=1
+echo Booting Grml64 Full Sid...
+chain vmlinuz initrd=initrd.img initrd=grml64-full_sid.squashfs boot=live apm=power-off vga=791 nomce nobeep noeject noprompt noblank keyboard=us xkeyboard=us tz=America/Los_Angeles hostname ssh=password || goto custom_exit
 
-:grmlram
-set grml-path https://rscholar.keybase.pub/ipxe/grml
-imgfetch --name vmlinuz ${grml-path}/vmlinuz?dl=1
-imgfetch --name initrd.img ${grml-path}/initrd.img?dl=1
-imgfetch --name grml64-full.squashfs ${grml-path}/grml64-full.squashfs
-chain vmlinuz initrd=initrd.img initrd=grml64-full.squashfs boot=live apm=power-off vga=791 nomce noeject noprompt noblank keyboard=us xkeyboard=us tz=America/Los_Angeles hostname ssh=password nox2apic || goto custom_exit
+:grmlnet
+echo Downloading Grml64 Full Sid image files from ${grml-path}...
+echo Fetching kernel...
+imgfetch --name vmlinuz ${grml-path}/boot/grml64full_sid/vmlinuz?dl=1
+echo Fetching initramfs...
+imgfetch --name initrd.img ${grml-path}/boot/grml64full_sid/initrd.img?dl=1
+echo Booting Grml64 Full Sid...
+chain vmlinuz initrd=initrd.img boot=live apm=power-off vga=791 nomce fetch=${grml-path}/live/grml64-full_sid/grml64-full_sid.squashfs nobeep noeject noprompt noblank keyboard=us xkeyboard=us tz=America/Los_Angeles hostname ssh=password || goto custom_exit
 
-:czillaiso
-set czilla-path https://rscholar.keybase.pub/ipxe/czilla
-imgfetch --name memdisk ${czilla-path}/memdisk?dl=1
-imgfetch --name clonezilla-live-20191009-eoan-amd64.iso ${czilla-path}/clonezilla-live-20191009-eoan-amd64.iso?dl=1
-chain memdisk initrd=clonezilla-live-20191009-eoan-amd64.iso raw iso nox2apic vmalloc=256M || goto custom_exit
+:czilla
+echo Downloading Clonelizza Live image files from ${czilla-path}...
+echo Fetching kernel...
+imgfetch --name vmlinuz ${czilla-path}/live/vmlinuz?dl=1
+echo Fetching initramfs...
+imgfetch --name initrd.img ${czilla-path}/live/initrd.img?dl=1
+echo Fetching filesystem...
+imgfetch --name filesystem.squashfs ${czilla-path}/live/filesystem.squashfs?dl=1
+echo Booting Clonezilla Live...
+chain vmlinuz initrd=initrd.img initrd=filesystem.squashfs boot=live union=overlay username=user hostname=kinetic config quiet loglevel=0 noswap edd=on enforcing=0 noeject locales=en_US.UTF-8 keyboard-layouts=us ocs_live_run="ocs-live-general" ocs_live_extra_param="" ocs_live_batch="no" ocs_fontface="Terminus" ocs_fontsize="20x10" net.ifnames=0 splash || goto custom_exit
 
-:czillaram
-set czilla-path https://rscholar.keybase.pub/ipxe/czilla
-imgfetch --name vmlinuz ${czilla-path}/vmlinuz?dl=1
-imgfetch --name initrd.img ${czilla-path}/initrd.img?dl=1
-imgfetch --name filesystem.squashfs ${czilla-path}/filesystem.squashfs
-chain vmlinuz initrd=initrd.img initrd=filesystem.squashfs boot=live username=user union=overlay config components quiet noswap edd=on nodmraid locales=en_US.UTF-8 ocs_live_run="ocs-live-general" ocs_live_batch=no net.ifnames=0 nosplash noprompt nox2apic || goto custom_exit
+:czillanet
+echo Downloading Clonelizza Live image files from ${czilla-path}...
+echo Fetching kernel...
+imgfetch --name vmlinuz ${czilla-path}/live/vmlinuz?dl=1
+echo Fetching initramfs...
+imgfetch --name initrd.img ${czilla-path}/live/initrd.img?dl=1
+echo Booting Clonezilla Live...
+chain vmlinuz initrd=initrd.img boot=live union=overlay username=user hostname=kinetic config quiet loglevel=0 noswap edd=on enforcing=0 noeject locales=en_US.UTF-8 keyboard-layouts=us ocs_live_run="ocs-live-general" ocs_live_extra_param="" ocs_live_batch="no" ocs_fontface="Terminus" ocs_fontsize="20x10" net.ifnames=0 splash noprompt fetch=${czilla-path}/live/filesystem.squashfs || goto custom_exit
 
 sleep 300
 goto custom_exit
