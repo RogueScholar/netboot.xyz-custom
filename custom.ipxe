@@ -9,6 +9,7 @@ set keybase-ipxe-path https://rscholar.keybase.pub/ipxe
 set pmagic-path ${keybase-ipxe-path}/pmagic
 set grml-path ${keybase-ipxe-path}/grml64-full
 set czilla-path ${keybase-ipxe-path}/clonezilla
+cpair --foreground 2 --background 0 0
 console --left 40 --right 40 --top 80 --bottom 80 --depth 24 --picture ${keybase-ipxe-path}/background.png --keep
 
 dhcp && echo DHCP network interface configuration succeeded!
@@ -19,7 +20,7 @@ echo Greetings, wayfaring stranger.
 :main
 clear choice
 menu --name main Select the desired boot environment or system command:
-item --menu main --gap -- ---------------- Parted Magic (v2022_03_28) ----------------
+item --menu main --gap -- ---------------- Parted Magic (v2022_11_20) ----------------
 item --menu main --key 0x10 --default pmagic ${space} (P)arted Magic amd64 classic+cgz
 item --menu main --key 0x0d pmagicnet        ${space} Parted (M)agic amd64 netsrc+squashfs
 item --menu main --gap -- --------- Grml Live Sid (Build 3819 [2022-06-15]) ----------
