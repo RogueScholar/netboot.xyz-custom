@@ -78,7 +78,7 @@ communicate their reasons for moderation decisions when appropriate.
 Community leaders will follow these Community Impact Guidelines in determining
 the consequences for any action they deem in violation of this Code of Conduct:
 
-#### 1. Correction
+#### Step 1️⃣: Correction
 
 **Community Impact**: Use of inappropriate language or other behavior deemed
 unprofessional or unwelcome in the community.
@@ -90,7 +90,7 @@ unprofessional or unwelcome in the community.
   deemed inappropriate.
     + A public apology may be requested.
 
-#### 2. Warning
+#### Step 2️⃣: Warning
 
 **Community Impact**: A violation through a single incident or series of
 actions.
@@ -104,7 +104,7 @@ actions.
    external channels like social media.
     + Violating these terms may lead to a temporary or permanent ban.
 
-#### 3. Temporary Ban
+#### Step 3️⃣: Temporary Ban
 
 **Community Impact**: A serious violation of community standards, including
 sustained inappropriate behavior.
@@ -118,7 +118,7 @@ sustained inappropriate behavior.
    is allowed during this period.
     + Violating these terms may lead to a permanent ban.
 
-#### 4. Permanent Ban
+#### Step 4️⃣: Permanent Ban
 
 **Community Impact**: Demonstrating a pattern of violation of community
 standards, including sustained inappropriate behavior,  harassment of an
@@ -129,6 +129,8 @@ the community.
 
 ## 📜 Attribution and licensing
 
+[<img alt="Contributor Covenant logo" src="https://www.contributor-covenant.org/images/logo-inverted.svg"
+align="right" width="128" />][homepage]
 This document has been adapted from version 3.0 of the Contributor Covenant
 (official version at [contributor-covenant.org/version/3/0][upstream]),
 published under the stewardship of the [Organization for Ethical Source][oes],
@@ -136,10 +138,10 @@ and licensed according to the grants and restrictions set forth in the [Creative
 Commons Attribution-ShareAlike 4.0 International Public License][cc-by-sa-4.0]
 (CC-BY-SA-4.0).
 
+[![CC-BY-SA-4.0](https://licensebuttons.net/l/by-sa/4.0/88x31.png)][cc-by-sa-4.0]
+
 The enforcement ladder is adapted from the [Consequence Ladder][moz-ladder]
 developed and used by Mozilla's [Code of Conduct team][moz-coc].
-
----
 
 ## 🔗 External links
 
