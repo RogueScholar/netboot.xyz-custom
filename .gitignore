@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: © 2019–2026, RogueScholar <RogueScholar@users.noreply.github.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 # All but four Visual Studio Code files are installation-specific
 .vscode/*
 !.vscode/settings.json

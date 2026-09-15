@@ -1,0 +1,113 @@
+= A custom menu for Netboot.xyz
+RogueScholar <RogueScholar@users.noreply.github.com>
+
+:imagesdir: images
+:sectanchors:
+:toc: macro
+:toclevels: 1
+
+////
+SPDX-FileCopyrightText: © 2019–2026, RogueScholar <RogueScholar@users.noreply.github.com>
+SPDX-License-Identifier: CC0-1.0
+////
+
+// Metadata:
+:description: README page for repository containing a custom Netboot.xyz implementation
+:keywords: Netboot.xyz, PXE, iPXE, Clonezilla, Grml, Parted Magic
+:revdate: 2026-08-29
+:revnumber: 2.0.0
+// Refs:
+:url-project: https://netboot.xyz/
+:url-kdelogo: https://kde.org/stuff/clipart/logo/kde-logo-gray-transparent-source.svg
+
+****
+[.center%autowidth,cols="1,1",frame="none",grid="none",valign="middle"]
+|===
+| image:logo.png[alt="Netboot.xyz logo",width=40,height=40,align="center",float="left",link=]
+| [.big]#Featuring cloud booting into Clonezilla Live, Grml Full Live and Parted Magic!#
+|===
+****
+
+toc::[]
+
+== What this is
+
+[.lead.text-justify]
+Soon, we'll do a quick review of the foundational knowledge needed to understand
+how this works, but for now we'll speak in generalities. The **Preboot eXecution
+Environment**, or **PXE** (usually pronouned "Pixie") is a specification for
+booting computers not from files read over a local data bus, but downloaded over
+a network connection, stored in volatile memory (RAM) and if the download
+succeeds, run from memory as well. It was however mostly a business tool tightly
+coupled with the advent of the first data centers, and barely any effort was
+expended to share its vast potential to everyday users, hobbyists and power
+users. This gave rise to first the gPXE open-source implementation, and later to
+its modern-day successor, **iPXE**. They wrote implementations that could be
+flashed onto consumer network adapters and executed by consumer-grade
+mainboards. It filled such an obvious need that for at least a dozen years (as
+of this writing in 2026), if you use an upper-mid-tier computer from a major
+brand, it's more likely than not that iPXE was included in your network adapter
+firmware when you bought it.net
+
+[.lead.text-justify]
+The reason that it still hasn't become an everyday tool and point of reference
+to the common man is that there are some baked-in handicaps to how it's used.
+These all relate to the manner by which you inform the system of what files you
+want it to retrieve, where on the network to acquire them from and with which
+options to execute them. Since all of this occurs prior to the system firmware
+reaching a READY state, your only conversation partner is the network interface
+and a console interface that can often make DOS 6.0 appear quite sophisticated
+by comparison. And now we've arrived at the reason for having gathered here:
+**Netboot.xyz** _(\*angelic host roars\*)_.
+
+== Usage
+
+=== Install prerequisites
+
+To _use_ this repository, you need only to cause your system to load Netboot.xyz
+through its native iPXE implementation, or boot your system using one of the
+many one-time boot methods documented at the Netbook.xyz project web site (and
+elsewhere all over the internet).
+
+install the base netboot.xyz image, a Keybase account and the Keybase client.
+
+* https://netboot.xyz/[Netboot.xyz Home Page]
+* https://keybase.io/[Join Keybase]
+* https://keybase.io/download[Install the Keybase client]
+
+== Chainloading
+
+If you just want to boot your iPXE-enabled system using one of the utilities in
+the menu, you need only navigate to an iPXE shell prompt and issue this command:
+
+[,shell]
+----
+chain --autofree https://raw.githubusercontent.com/RogueScholar/netboot.xyz-custom/master/custom.ipxe
+----
+
+[colophon]
+== Colophon
+
+Document Version: {revnumber}
+
+Last Updated: {revdate}
+
+The terms of the {url-ccbysa4}[Creative Commons Attribution 4.0 International License]
+govern the acceptable use of the contents of this repository, unless otherwise
+specified within a specific file.
+
+[.text-center]
+image::{url-kdelogo}[alt="K Desktop Environment logo",width=48,height=48]
+
+== {url-legal}[Legal]
+
+.Credits
+[%collapsible]
+====
+[.text-center]
+Maintained by {url-sysadmin}[KDE Sysadmin]. Design by the {url-webteam}[KDE Web Team].
+
+[.text-center]
+KDE^(R)^ and the {url-kdelogo}[K Desktop Environment logo] are registered
+trademarks of {url-kdeev}[KDE e.V.]
+====
