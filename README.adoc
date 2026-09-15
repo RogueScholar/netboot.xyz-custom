@@ -1,10 +1,11 @@
-= A custom menu for Netboot.xyz
+= Personal set of rescue tools: Live-booted by netboot.xyz
 RogueScholar <RogueScholar@users.noreply.github.com>
 
+:figure-caption!:
 :imagesdir: images
 :sectanchors:
-:toc: macro
-:toclevels: 1
+:source-highlighter: highlight.js
+:toc!:
 
 ////
 SPDX-FileCopyrightText: © 2019–2026, RogueScholar <RogueScholar@users.noreply.github.com>
@@ -17,32 +18,44 @@ SPDX-License-Identifier: CC0-1.0
 :revdate: 2026-08-29
 :revnumber: 2.0.0
 // Refs:
+:activity-badge: https://img.shields.io/github/last-commit/RogueScholar/netboot.xyz-custom?style=plastic&logo=ticktick&logoColor=white&logoSize=auto&cacheSeconds=3600
+:apache-way: ASF_apacheway_badge-purple.webp
+:commit-log: https://github.com/RogueScholar/netboot.xyz-custom/commits/main/
+:keybase-id: https://keybase.io/rscholar
+:keybase-badge: https://img.shields.io/keybase/pgp/rscholar?style=plastic&logo=keybase&logoColor=white&logoSize=auto&label=keybase&labelColor=4a62e1&color=white&cacheSeconds=3600
+:license-badge: https://img.shields.io/badge/license-Apache\--2.0-29265e?style=plastic&logo=apache&logoColor=ef9b2e&logoSize=auto&labelColor=dimgray&cacheSeconds=7200
+:nbxyz-logo: nbxyz_logo_name.png
+:reuse-badge: https://api.reuse.software/badge/github.com/RogueScholar/netboot.xyz-custom
+:reuse-info: https://api.reuse.software/info/github.com/RogueScholar/netboot.xyz-custom
+:url-apache: https://www.apache.org/licenses/LICENSE-2.0
 :url-project: https://netboot.xyz/
-:url-kdelogo: https://kde.org/stuff/clipart/logo/kde-logo-gray-transparent-source.svg
 
-****
-[.center%autowidth,cols="1,1",frame="none",grid="none",valign="middle"]
-|===
-| image:logo.png[alt="Netboot.xyz logo",width=40,height=40,align="center",float="left",link=]
-| [.big]#Featuring cloud booting into Clonezilla Live, Grml Full Live and Parted Magic!#
-|===
-****
+image:{reuse-badge}[alt="REUSE status",height=20,width=110,link={reuse-info}]
+&#x2003;
+image:{activity-badge}[alt"Last commit date",height=20,link={commit-log}]
+&#x2003;
+image:{license-badge}[alt=License,height=20,width=153,link={url-apache}]
+&#x2003;
+image:{keybase-badge}[alt="Keybase PGP",height=20,width=218,link={keybase-id}]
 
-toc::[]
+''''
+
+.*Featuring cloud booting into Clonezilla, Grml and Parted Magic!*
+image::{nbxyz-logo}["Netboot.xyz logo",360,235,align=center]
 
 == What this is
 
 [.lead.text-justify]
 Soon, we'll do a quick review of the foundational knowledge needed to understand
-how this works, but for now we'll speak in generalities. The **Preboot eXecution
-Environment**, or **PXE** (usually pronouned "Pixie") is a specification for
+how this works, but for now we'll speak in generalities. The *Preboot eXecution
+Environment*, or *PXE* (typically pronouned _"Pixie"_) is a specification for
 booting computers not from files read over a local data bus, but downloaded over
 a network connection, stored in volatile memory (RAM) and if the download
 succeeds, run from memory as well. It was however mostly a business tool tightly
 coupled with the advent of the first data centers, and barely any effort was
 expended to share its vast potential to everyday users, hobbyists and power
 users. This gave rise to first the gPXE open-source implementation, and later to
-its modern-day successor, **iPXE**. They wrote implementations that could be
+its modern-day successor, *iPXE*. They wrote implementations that could be
 flashed onto consumer network adapters and executed by consumer-grade
 mainboards. It filled such an obvious need that for at least a dozen years (as
 of this writing in 2026), if you use an upper-mid-tier computer from a major
@@ -58,7 +71,7 @@ options to execute them. Since all of this occurs prior to the system firmware
 reaching a READY state, your only conversation partner is the network interface
 and a console interface that can often make DOS 6.0 appear quite sophisticated
 by comparison. And now we've arrived at the reason for having gathered here:
-**Netboot.xyz** _(\*angelic host roars\*)_.
+*Netboot.xyz*. [small]#_[cue angelic choir in unison, "Ahhhh"]_#
 
 == Usage
 
@@ -80,34 +93,26 @@ install the base netboot.xyz image, a Keybase account and the Keybase client.
 If you just want to boot your iPXE-enabled system using one of the utilities in
 the menu, you need only navigate to an iPXE shell prompt and issue this command:
 
-[,shell]
+[source,sh]
 ----
 chain --autofree https://raw.githubusercontent.com/RogueScholar/netboot.xyz-custom/master/custom.ipxe
 ----
 
-[colophon]
-== Colophon
+== License
 
+[.left.text-center]
+image::{apache-way}["The Apache Way",80,80]
+
+The terms of the {url-apache}[Apache License, version 2.0], govern the
+acceptable use of the contents of this repository, unless otherwise specified
+within a specific file.
+
+'''
+
+.Colophon
+[%collapsible]
+====
 Document Version: {revnumber}
 
 Last Updated: {revdate}
-
-The terms of the {url-ccbysa4}[Creative Commons Attribution 4.0 International License]
-govern the acceptable use of the contents of this repository, unless otherwise
-specified within a specific file.
-
-[.text-center]
-image::{url-kdelogo}[alt="K Desktop Environment logo",width=48,height=48]
-
-== {url-legal}[Legal]
-
-.Credits
-[%collapsible]
-====
-[.text-center]
-Maintained by {url-sysadmin}[KDE Sysadmin]. Design by the {url-webteam}[KDE Web Team].
-
-[.text-center]
-KDE^(R)^ and the {url-kdelogo}[K Desktop Environment logo] are registered
-trademarks of {url-kdeev}[KDE e.V.]
 ====
